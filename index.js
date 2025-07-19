@@ -34,14 +34,14 @@ app.get('/api/persons', (request, response) => {
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
-  const promise = Person
+  Person
     .findById(request.params.id)
     .then(person => {
       if (person) {
         response.json(person)
       } else {
         response.status(404).end()
-      }      
+      }
     })
     .catch(error => {
       next(error)
@@ -51,7 +51,7 @@ app.get('/api/persons/:id', (request, response, next) => {
 app.delete('/api/persons/:id', (request, response, next) => {
   Person
     .findByIdAndDelete(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => {
@@ -61,7 +61,7 @@ app.delete('/api/persons/:id', (request, response, next) => {
 
 app.get('/info', (request, response) => {
   const date = new Date()
-  
+
   Person
     .find({})
     .then(people => {
@@ -99,8 +99,8 @@ app.put('/api/persons/:id', (request, response, next) => {
 
   Person
     .findByIdAndUpdate(
-      request.params.id, 
-      person, 
+      request.params.id,
+      person,
       { new: true, runValidators: true, context: 'query' }
     )
     .then(updatedPerson => {
